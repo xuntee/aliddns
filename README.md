@@ -1,4 +1,4 @@
 # aliddns
 ## usage
 aliddns www.example.com</p>
-www is your subdomain
+"www" is your subdomain
