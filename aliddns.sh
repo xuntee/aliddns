@@ -3,6 +3,9 @@
 aliddns_ak=""
 aliddns_sk=""
 aliddns_ttl="600"
+if [ ! -n $1 ] ; then
+    exit 1
+fi
 aliddns_name=$1
 host_file=/etc/hosts
 #compare
@@ -16,8 +19,8 @@ then
     exit 0
 fi 
 
-aliddns_sub=${aliddns_domain%.*.*}
-aliddns_domain=${aliddns_domain##$aliddns_sub'.'}
+aliddns_sub=${aliddns_name%.*.*}
+aliddns_domain=${aliddns_name##$aliddns_sub'.'}
 timestamp=`date -u "+%Y-%m-%dT%H%%3A%M%%3A%SZ"`
 urlencode() {
     # urlencode <string>
@@ -73,10 +76,10 @@ aliddns_record_id=`query_recordid | get_recordid`
 if [ "$aliddns_record_id" = "" ]
 then
     aliddns_record_id=`add_record | get_recordid`
-    echo "\n added record $aliddns_record_id"
+    echo "added record $aliddns_record_id"
 else
     update_record $aliddns_record_id
-    echo "\n updated record $aliddns_record_id"
+    echo "updated record $aliddns_record_id"
 fi
 if [ "$host_file" != "" ]; then
     update_hosts
